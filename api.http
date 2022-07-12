@@ -1,0 +1,52 @@
+### Basic
+GET http://localhost:8080/greeting
+
+### Simple Query
+
+GET http://localhost:8080/greeting?query={"content": "Gustavo Leitão", "quantity": {"$lt": 100}}
+
+### Like Query
+
+GET http://localhost:8080/greeting?query={"content": {"$like": "%25Leitão"}}
+
+### Number Query
+
+GET http://localhost:8080/greeting?query={"quantity":  8}}
+
+### $gt query
+
+GET http://localhost:8080/greeting?query={"quantity": {"$gt": 9}}
+
+### $lt query
+
+GET http://localhost:8080/greeting?query={"quantity": {"$lt": 9}}
+
+### crete some data
+
+POST http://localhost:8080/greeting
+Content-Type: application/json
+
+{
+  "content": "Fernanda Medeiros",
+  "quantity": 8
+}
+
+###
+
+POST http://localhost:8080/greeting
+Content-Type: application/json
+
+{
+  "content": "Gustavo Leitão",
+  "quantity": 9
+}
+
+###
+
+POST http://localhost:8080/greeting
+Content-Type: application/json
+
+{
+  "content": "Fernanda Leitão",
+  "quantity": 10
+}
