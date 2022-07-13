@@ -91,7 +91,7 @@ public class QuerySpecification <T> implements Specification<T>  {
     }
 
     private Object getValue(Class clazz, Object data){
-        if (clazz.isEnum()){
+        if (clazz.isEnum()) {
             try {
                 Class enumClazz = Class.forName(clazz.getName());
                 Enum myEnum = Enum.valueOf(enumClazz, data.toString());
@@ -99,6 +99,8 @@ public class QuerySpecification <T> implements Specification<T>  {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("Falha ao converter dado para o enum correspondente.");
             }
+        }else if (Boolean.class.isAssignableFrom(clazz) || boolean.class.isAssignableFrom(clazz)){
+            return Boolean.valueOf(data.toString());
         }else{
             return data;
         }

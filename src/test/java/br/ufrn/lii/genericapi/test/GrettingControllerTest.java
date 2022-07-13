@@ -30,9 +30,9 @@ class GrettingControllerTest {
 
     public List<Greeting> mockData(){
         List<Greeting> mock = new ArrayList<>();
-        mock.add(getMockGreeting("Simple text", 9, 0.33, Greeting.State.ON));
-        mock.add(getMockGreeting("Text simple", 10, 0.66, Greeting.State.OFF));
-        mock.add(getMockGreeting("Some different", 11, 0.99, Greeting.State.ON));
+        mock.add(getMockGreeting("Simple text", 9, 0.33, Greeting.State.ON, false));
+        mock.add(getMockGreeting("Text simple", 10, 0.66, Greeting.State.OFF, true));
+        mock.add(getMockGreeting("Some different", 11, 0.99, Greeting.State.ON, false));
         return mock;
     }
 
@@ -132,17 +132,42 @@ class GrettingControllerTest {
                 .getState().equals(Greeting.State.OFF));
     }
 
+    @Test
+    public void eqBooleanFilter(){
+        var paramters = ParamterBuild.instance()
+                .eq("bValue", "true")
+                .build();
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
+                .isbValue());
+    }
+
+    @Test
+    public void eqNonPrimitiveBooleanFilter(){
+        var paramters = ParamterBuild.instance()
+                .eq("bNonPrimitiveValue", "true")
+                .build();
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
+                .getbNonPrimitiveValue().booleanValue());
+    }
+
+
     @BeforeAll
     public void setupTest(){
         repository.saveAll(mockData());
     }
 
-    private Greeting getMockGreeting(String content, int iValue, double dValue, Greeting.State state) {
+    private Greeting getMockGreeting(String content, int iValue, double dValue, Greeting.State state, boolean bValue) {
         var greeting = new Greeting();
         greeting.setContent(content);
         greeting.setIValue(iValue);
         greeting.setDValue(dValue);
         greeting.setState(state);
+        greeting.setbValue(bValue);
+        greeting.setbNonPrimitiveValue(Boolean.valueOf(bValue));
         return greeting;
     }
 

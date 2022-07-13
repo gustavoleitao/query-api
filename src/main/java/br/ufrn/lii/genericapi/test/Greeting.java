@@ -24,7 +24,27 @@ public class Greeting {
 
     private State state;
 
+    private boolean bValue;
+
+    private Boolean bNonPrimitiveValue;
+
     public Greeting() {
+    }
+
+    public boolean isbValue() {
+        return bValue;
+    }
+
+    public void setbValue(boolean bValue) {
+        this.bValue = bValue;
+    }
+
+    public Boolean getbNonPrimitiveValue() {
+        return bNonPrimitiveValue;
+    }
+
+    public void setbNonPrimitiveValue(Boolean bNonPrimitiveValue) {
+        this.bNonPrimitiveValue = bNonPrimitiveValue;
     }
 
     public double getDValue() {
