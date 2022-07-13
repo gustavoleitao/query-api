@@ -1,13 +1,11 @@
-package br.ufrn.lii.genericapi.controller;
+package br.ufrn.lii.genericapi.test;
 
-import br.ufrn.lii.genericapi.model.Greeting;
-import br.ufrn.lii.genericapi.repository.GreetingRepository;
-import br.ufrn.lii.genericapi.repository.GenericSpecification;
-import br.ufrn.lii.genericapi.repository.QuerySpecification;
+import br.ufrn.lii.genericapi.QuerySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.Map;
 
@@ -24,6 +22,7 @@ public class GrettingController {
 
     @PostMapping("/greeting")
     public Greeting save(@RequestBody Greeting data){
+        System.out.println("Saving...");
         return repository.save(data);
     }
 

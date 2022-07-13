@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi.repository;
+package br.ufrn.lii.genericapi;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

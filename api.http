@@ -11,7 +11,7 @@ GET http://localhost:8080/greeting?query={"content": {"$like": "%25Leitão"}}
 
 ### Number Query
 
-GET http://localhost:8080/greeting?query={"quantity":  8}}
+GET http://localhost:8080/greeting?query={"quantity":  8}
 
 ### $gt query
 
@@ -20,6 +20,10 @@ GET http://localhost:8080/greeting?query={"quantity": {"$gt": 9}}
 ### $lt query
 
 GET http://localhost:8080/greeting?query={"quantity": {"$lt": 9}}
+
+### Projection
+
+GET http://localhost:8080/greeting?fields=id&query={"quantity":  8}
 
 ### crete some data
 

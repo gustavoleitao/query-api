@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi.model;
+package br.ufrn.lii.genericapi.test;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,25 +8,43 @@ import javax.persistence.Id;
 @Entity
 public class Greeting {
 
+    public enum State {
+        ON,OFF
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String content;
 
-    private int quantity;
+    private int iValue;
+
+    private double dValue;
+
+    private State state;
 
     public Greeting() {
     }
 
-    public Greeting(Long id, String content, int quantity) {
-        this.id = id;
-        this.content = content;
-        this.quantity = quantity;
+    public double getDValue() {
+        return dValue;
+    }
+
+    public void setDValue(double dvalue) {
+        this.dValue = dvalue;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public void setId(Long id) {
@@ -41,12 +59,12 @@ public class Greeting {
         this.content = content;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setIValue(int quantity) {
+        this.iValue = quantity;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getIValue() {
+        return iValue;
     }
 
     @Override

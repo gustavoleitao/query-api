@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi.repository;
+package br.ufrn.lii.genericapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,11 @@ public class QuerySpecification <T> implements Specification<T>  {
 
     public enum OP {
 
-        LIKE("$like", OperatorsImpl.like()), GT("$gt", OperatorsImpl.gt()), LT("$lt", OperatorsImpl.lt());
+        LIKE("$like", OperatorsImpl.like()),
+        GT("$gt", OperatorsImpl.gt()),
+        LT("$lt", OperatorsImpl.lt()),
+        GE("$ge", OperatorsImpl.ge()),
+        LE("$le", OperatorsImpl.le());
 
         private OperatorStrategy strategy;
 
@@ -72,15 +76,31 @@ public class QuerySpecification <T> implements Specification<T>  {
     }
 
     private Predicate processCriteria(Root<T> root, CriteriaBuilder criteria, String originalKey, Object data) {
+        var attrt = root.getModel().getAttribute(originalKey).getJavaType();
+
         if (Map.class.isAssignableFrom(data.getClass())){
             Map<String, Object> mapData = (Map<String, Object>) data;
             return mapData.keySet()
                     .stream()
                     .limit(1)
-                    .map(key -> OP.byOperator(key).getStrategy().buildCriteria(root, criteria, originalKey, mapData.get(key).toString()))
+                    .map(key -> OP.byOperator(key).getStrategy().buildCriteria(root, criteria, originalKey, getValue(attrt,mapData.get(key)).toString()))
                     .collect(Collectors.toList()).get(0);
         }else{
-            return criteria.equal(root.get(originalKey), data);
+            return criteria.equal(root.get(originalKey), getValue(attrt,data));
+        }
+    }
+
+    private Object getValue(Class clazz, Object data){
+        if (clazz.isEnum()){
+            try {
+                Class enumClazz = Class.forName(clazz.getName());
+                Enum myEnum = Enum.valueOf(enumClazz, data.toString());
+                return myEnum;
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("Falha ao converter dado para o enum correspondente.");
+            }
+        }else{
+            return data;
         }
     }
 
