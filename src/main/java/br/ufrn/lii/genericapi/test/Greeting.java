@@ -1,9 +1,7 @@
 package br.ufrn.lii.genericapi.test;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Greeting {
@@ -27,6 +25,9 @@ public class Greeting {
     private boolean bValue;
 
     private Boolean bNonPrimitiveValue;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateValue;
 
     public Greeting() {
     }
@@ -85,6 +86,14 @@ public class Greeting {
 
     public int getIValue() {
         return iValue;
+    }
+
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
     }
 
     @Override

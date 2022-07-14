@@ -4,14 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.criteria.*;
+import java.text.ParseException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class QuerySpecification <T> implements Specification<T>  {
@@ -83,28 +78,13 @@ public class QuerySpecification <T> implements Specification<T>  {
             return mapData.keySet()
                     .stream()
                     .limit(1)
-                    .map(key -> OP.byOperator(key).getStrategy().buildCriteria(root, criteria, originalKey, getValue(attrt,mapData.get(key)).toString()))
+                    .map(key -> OP.byOperator(key).getStrategy().buildCriteria(root, criteria, originalKey, ConverterUtil.toComparable(attrt, mapData.get(key))))
                     .collect(Collectors.toList()).get(0);
         }else{
-            return criteria.equal(root.get(originalKey), getValue(attrt,data));
+            return criteria.equal(root.get(originalKey), ConverterUtil.toComparable(attrt,data));
         }
     }
 
-    private Object getValue(Class clazz, Object data){
-        if (clazz.isEnum()) {
-            try {
-                Class enumClazz = Class.forName(clazz.getName());
-                Enum myEnum = Enum.valueOf(enumClazz, data.toString());
-                return myEnum;
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException("Falha ao converter dado para o enum correspondente.");
-            }
-        }else if (Boolean.class.isAssignableFrom(clazz) || boolean.class.isAssignableFrom(clazz)){
-            return Boolean.valueOf(data.toString());
-        }else{
-            return data;
-        }
-    }
 
     private Map<String,Object> parseJson(String whereQuery) {
         try {
