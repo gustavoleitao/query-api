@@ -24,11 +24,6 @@ public class GrettingController {
 
 > You need extend JpaSpecificationExecutor at Repository to support Specification
 
-{% note %}
-
-**Note:** Owners and administrators can add outside collaborators to a repository.
-
-{% endnote %}
 
 Now, you will now be able to filter the data by any field of the entity.
 
