@@ -6,7 +6,7 @@ This project implements queries filter in generic way to REST APIs developed wit
 
 ## How to use
 
-Add Map Parameter at Controller to collect all request parameters. After that, you need to create instance of QuerySpecification passing the parameters, like this:
+Add Map Parameter at Controller to collect all request parameters. After that, you need to create instance of QuerySpecification passing this parameters to Repository, like this:
 
 ```java
 @RestController
@@ -21,6 +21,10 @@ public class GrettingController {
     }
 }
 ```
+
+{% note %}
+You need extend JpaSpecificationExecutor at Repository to support Specification
+{% endnote %}
 
 Now, you will now be able to filter the data by any field of the entity.
 
