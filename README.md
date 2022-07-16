@@ -22,9 +22,7 @@ public class GrettingController {
 }
 ```
 
-{% note %}
-You need extend JpaSpecificationExecutor at Repository to support Specification
-{% endnote %}
+> You need extend JpaSpecificationExecutor at Repository to support Specification
 
 Now, you will now be able to filter the data by any field of the entity.
 
