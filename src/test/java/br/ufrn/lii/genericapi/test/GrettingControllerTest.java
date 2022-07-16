@@ -12,8 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,13 +30,24 @@ class GrettingControllerTest {
         assertThat(repository).isNotNull();
     }
 
-
     public List<Greeting> mockData() throws ParseException {
-        List<Greeting> mock = new ArrayList<>();
-        mock.add(getMockGreeting("Simple text", 9, 0.33, Greeting.State.ON, false, DateUtil.parseDate("2022-07-11T00:00:00Z")));
-        mock.add(getMockGreeting("Text simple", 10, 0.66, Greeting.State.OFF, true, DateUtil.parseDate("2022-07-12T00:00:00Z")));
-        mock.add(getMockGreeting("Some different", 11, 0.99, Greeting.State.ON, false, DateUtil.parseDate("2022-07-13T00:00:00Z")));
-        return mock;
+
+        var data1 = Greeting
+                .builder().content("Simple text").iValue(9).dValue(0.33).state(Greeting.State.ON)
+                .bValue(false).bNonPrimitiveValue(false).dateValue(DateUtil.parseDate("2022-07-11T00:00:00Z")).build();
+
+        var data2 = Greeting
+                .builder().content("Text simple").iValue(10).dValue(0.66).state(Greeting.State.OFF)
+                .bValue(true).bNonPrimitiveValue(true).dateValue(DateUtil.parseDate("2022-07-12T00:00:00Z"))
+                .other(SomeOther.builder().text("random").build())
+                .build();
+
+        var data3 = Greeting
+                .builder().content("Some different").iValue(11).dValue(0.99).state(Greeting.State.ON)
+                .bValue(false).bNonPrimitiveValue(false).dateValue(DateUtil.parseDate("2022-07-13T00:00:00Z"))
+                .build();
+
+        return Arrays.asList(data1, data2, data3);
     }
 
     @Test
@@ -144,7 +154,7 @@ class GrettingControllerTest {
         List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
         Assert.assertEquals(1, result.size());
         Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
-                .isbValue());
+                .isBValue());
     }
 
     @Test
@@ -155,7 +165,7 @@ class GrettingControllerTest {
         List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
         Assert.assertEquals(1, result.size());
         Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
-                .getbNonPrimitiveValue().booleanValue());
+                .getBNonPrimitiveValue().booleanValue());
     }
 
     @Test
@@ -168,21 +178,31 @@ class GrettingControllerTest {
         Assert.assertTrue(result.stream().findAny().get().getDateValue().after(DateUtil.parseDate("2022-07-12T00:00:00Z")));
     }
 
+    @Test
+    public void eqOne2OneFilter(){
+        var paramters = ParamterBuild.instance()
+                .eq("other.text", "random")
+                .build();
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
+                .getOther().getText().equals("random"));
+    }
+
+    @Test
+    public void likeOne2OneFilter(){
+        var paramters = ParamterBuild.instance()
+                .like("other.text", "rand%")
+                .build();
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
+                .getOther().getText().equals("random"));
+    }
+
     @BeforeAll
     public void setupTest() throws ParseException {
         repository.saveAll(mockData());
-    }
-
-    private Greeting getMockGreeting(String content, int iValue, double dValue, Greeting.State state, boolean bValue, Date dateValue) {
-        var greeting = new Greeting();
-        greeting.setContent(content);
-        greeting.setIValue(iValue);
-        greeting.setDValue(dValue);
-        greeting.setState(state);
-        greeting.setbValue(bValue);
-        greeting.setbNonPrimitiveValue(Boolean.valueOf(bValue));
-        greeting.setDateValue(dateValue);
-        return greeting;
     }
 
 }

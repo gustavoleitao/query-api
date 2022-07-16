@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,8 @@ public class QuerySpecification <T> implements Specification<T>  {
         GT("$gt", OperatorsImpl.gt()),
         LT("$lt", OperatorsImpl.lt()),
         GE("$ge", OperatorsImpl.ge()),
-        LE("$le", OperatorsImpl.le());
+        LE("$le", OperatorsImpl.le()),
+        EQ("$eq", OperatorsImpl.eq());
 
         private OperatorStrategy strategy;
 
@@ -38,7 +38,7 @@ public class QuerySpecification <T> implements Specification<T>  {
             return Arrays.stream(values())
                     .filter((item) -> item.getOperator().equals(name))
                     .limit(1)
-                    .findAny().orElseThrow(() -> new IllegalArgumentException("Operador "+name+ " não suportado"));
+                    .findAny().orElseThrow(() -> new IllegalArgumentException("Operador " + name + " não suportado"));
         }
 
         public OperatorStrategy getStrategy() {
@@ -56,35 +56,36 @@ public class QuerySpecification <T> implements Specification<T>  {
         String whereQuery = params.get("query");
         Map<String, Object> filterMap = parseJson(whereQuery);
 
+        if (filterMap.isEmpty()) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+
         var attrs = root.getModel().getDeclaredAttributes();
 
         Predicate[] predicates = filterMap.keySet().stream()
-                .filter(key -> attrs.stream().anyMatch(item -> item.getName().equals(key)))
+                .filter(key -> attrs.stream().anyMatch(item -> item.getName().equals(OperatorsImpl.getFieldByKey(key))))
                 .map(key -> processCriteria(root, criteriaBuilder, key, filterMap.get(key)))
                 .toArray(value -> new Predicate[value]);
 
         if (predicates.length <= 0){
-            return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+            return criteriaBuilder.isTrue(criteriaBuilder.literal(false));
         }else{
             return criteriaBuilder.and(predicates);
         }
     }
 
     private Predicate processCriteria(Root<T> root, CriteriaBuilder criteria, String originalKey, Object data) {
-        var attrt = root.getModel().getAttribute(originalKey).getJavaType();
-
+        var attrt = root.getModel().getAttribute(OperatorsImpl.getFieldByKey(originalKey)).getJavaType();
         if (Map.class.isAssignableFrom(data.getClass())){
             Map<String, Object> mapData = (Map<String, Object>) data;
             return mapData.keySet()
                     .stream()
                     .limit(1)
-                    .map(key -> OP.byOperator(key).getStrategy().buildCriteria(root, criteria, originalKey, ConverterUtil.toComparable(attrt, mapData.get(key))))
+                    .map(key -> OP.byOperator(key).getStrategy().buildCriteria(root, criteria, originalKey, ConverterUtil.toComparable(attrt, originalKey, mapData.get(key))))
                     .collect(Collectors.toList()).get(0);
         }else{
-            return criteria.equal(root.get(originalKey), ConverterUtil.toComparable(attrt,data));
+            return OP.EQ.getStrategy()
+                    .buildCriteria(root,criteria, originalKey, ConverterUtil.toComparable(attrt, originalKey, data));
         }
     }
-
 
     private Map<String,Object> parseJson(String whereQuery) {
         try {
