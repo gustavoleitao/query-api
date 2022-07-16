@@ -4,6 +4,8 @@ This project implements queries filter in generic way to REST APIs developed wit
 
 ## How to install
 
+This project is currently in developing mode. We don`t release stable version yet. Watch this project to follow its development.
+
 ## How to use
 
 Add Map Parameter at Controller to collect all request parameters. After that, you need to create instance of QuerySpecification passing this parameters to Repository, like this:
