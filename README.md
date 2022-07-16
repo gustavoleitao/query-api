@@ -8,7 +8,7 @@ This project is currently in developing mode. We don`t release stable version ye
 
 ## How to use
 
-Add Map Parameter at Controller to collect all request parameters. After that, you need to create instance of QuerySpecification passing this parameters to Repository, like this:
+First step you need to add @RequestParam Map<String, String> at Controller method to collect all request parameters. After that, you need to create instance of QuerySpecification and pass this parameter to repository query, like this:
 
 ```java
 @RestController
