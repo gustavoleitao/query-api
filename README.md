@@ -1,6 +1,6 @@
 # Query API
 
-This project implements queries filter in generic way to REST APIs.
+This project implements queries filter in generic way to REST APIs developed with Spring Data.
 
 ## How to install
 
