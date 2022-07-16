@@ -55,14 +55,14 @@ At moment the Query API supports only AND logical operators between filters crit
 
 The Query Api supports these operators:
 
-| Operator | Description           | Example                                      |
-|----------|-----------------------|----------------------------------------------|
-| $eq      | Equal operator        | {"content": {"$eq": "Some%"}}                |
-| $like    | Like operator         | {"content": {"$eq": "Some%"}}                |
-| $gt      | Greater than          | {"content": {"$gt": 10.9}}                   |
-| $lt      | Less than             | {"content": {"$lt": 11}}                     |
-| $ge      | Greater or equal than | {"content": {"$ge": "2022-07-11T00:00:00Z"}} |
-| $le      | Less or equal than    | {"content": {"$le": "2021-07-11"}}           |
+| Operator | Description                    | Example                                      |
+|----------|--------------------------------|----------------------------------------------|
+| $eq      | Equal operator                 | {"content": {"$eq": "Some%"}}                |
+| $like    | Like operator                  | {"content": {"$eq": "Some%"}}                |
+| $gt      | Greater than operator          | {"content": {"$gt": 10.9}}                   |
+| $lt      | Less than operator             | {"content": {"$lt": 11}}                     |
+| $ge      | Greater or equal than operator | {"content": {"$ge": "2022-07-11T00:00:00Z"}} |
+| $le      | Less or equal than operator    | {"content": {"$le": "2021-07-11"}}           |
 
 Query API supports Date filter in ISO format. You can use full timestamp or only Date.
 
