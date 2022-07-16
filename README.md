@@ -37,7 +37,7 @@ To filter data you need pass parameter with name "query". The value of query is 
 GET http://localhost:8080/greeting?query={"content": "Some text"}
 ```
 
-In above example content is a field of Greeting model. You can use other operators:
+In above example **content** is a field of Greeting model. You can use other operators:
 
 ```
 GET http://localhost:8080/greeting?query={"content": {"$like": "Some%"}}
