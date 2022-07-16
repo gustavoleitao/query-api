@@ -63,7 +63,6 @@ The Query Api supports these operators:
 | $lt      | Less than             | {"content": {"$lt": 11}}                     |
 | $ge      | Greater or equal than | {"content": {"$ge": "2022-07-11T00:00:00Z"}} |
 | $le      | Less or equal than    | {"content": {"$le": "2021-07-11"}}           |
-|          |                       |                                              |
 
 Query API supports Date filter in ISO format. You can use full timestamp or only Date.
 
