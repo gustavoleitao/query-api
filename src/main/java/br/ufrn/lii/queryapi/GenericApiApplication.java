@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi;
+package br.ufrn.lii.queryapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

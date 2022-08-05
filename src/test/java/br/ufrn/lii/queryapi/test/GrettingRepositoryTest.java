@@ -1,7 +1,7 @@
-package br.ufrn.lii.genericapi.test;
+package br.ufrn.lii.queryapi.test;
 
-import br.ufrn.lii.genericapi.DateUtil;
-import br.ufrn.lii.genericapi.QuerySpecification;
+import br.ufrn.lii.queryapi.DateUtil;
+import br.ufrn.lii.queryapi.QuerySpecification;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,10 +20,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class GrettingControllerTest {
+public class GrettingRepositoryTest {
 
     @Autowired
     private GreetingRepository repository;
+
+    public GrettingRepositoryTest() {
+    }
+
+//    public GrettingControllerTest(GreetingRepository repository) {
+//        this.repository = repository;
+//    }
 
     @Test
     public void contextLoads() throws Exception {

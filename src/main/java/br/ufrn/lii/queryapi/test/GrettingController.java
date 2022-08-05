@@ -1,11 +1,10 @@
-package br.ufrn.lii.genericapi.test;
+package br.ufrn.lii.queryapi.test;
 
-import br.ufrn.lii.genericapi.QuerySpecification;
+import br.ufrn.lii.queryapi.QuerySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.Map;
 

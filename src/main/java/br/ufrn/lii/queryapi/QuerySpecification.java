@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi;
+package br.ufrn.lii.queryapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

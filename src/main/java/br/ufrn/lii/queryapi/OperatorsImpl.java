@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi;
+package br.ufrn.lii.queryapi;
 
 public class OperatorsImpl {
 

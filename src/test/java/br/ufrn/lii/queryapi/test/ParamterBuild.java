@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi.test;
+package br.ufrn.lii.queryapi.test;
 
 import org.json.JSONObject;
 

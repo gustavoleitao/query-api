@@ -1,4 +1,4 @@
-package br.ufrn.lii.genericapi;
+package br.ufrn.lii.queryapi;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

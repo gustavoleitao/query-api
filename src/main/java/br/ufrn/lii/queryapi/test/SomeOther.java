@@ -1,4 +1,6 @@
-package br.ufrn.lii.genericapi.test;
+package br.ufrn.lii.queryapi.test;
+
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +9,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
+@Data
 @Builder
 @AllArgsConstructor
-@Data
 public class SomeOther {
 
     @Id

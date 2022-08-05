@@ -1,4 +1,5 @@
-package br.ufrn.lii.genericapi.test;
+package br.ufrn.lii.queryapi.test;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +10,8 @@ import java.util.Date;
 
 @Entity
 @Builder
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 public class Greeting {
 
     public Greeting() {
