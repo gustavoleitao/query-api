@@ -110,4 +110,4 @@ In this example, you can filter Greeting by SomeOther text like this:
 GET http://localhost:8080/greeting?query={"other.text": "Some other text"}
 ```
 
-All operators are also available at this mode.
+All operators are also available at this mode. 
