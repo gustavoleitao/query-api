@@ -111,3 +111,22 @@ GET http://localhost:8080/greeting?query={"other.text": "Some other text"}
 ```
 
 All operators are also available at this mode.
+
+## Fixed filter
+
+Sometimes you may need specificate a fixed filter. To do that, you can pass second argument with JSON filter like this:
+
+```java
+@RestController
+public class GrettingController {
+
+    @Autowired
+    private GreetingRepository repository;
+
+    @GetMapping("/greeting")
+    public Page<Greeting> greeting(@RequestParam Map<String, String> parameters, Pageable pageable) {
+        String fixedFilter = "{\"content\": \"Some Text\"}";
+        return repository.findAll(new QuerySpecification(paramters,fixedFilter), pageable);
+    }
+}
+```

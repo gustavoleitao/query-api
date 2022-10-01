@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class QuerySpecification <T> implements Specification<T>  {
 
+    private String filter = "";
     private Map<String,String> params;
 
     public enum OP {
@@ -50,14 +51,34 @@ public class QuerySpecification <T> implements Specification<T>  {
         this.params = params;
     }
 
+    public QuerySpecification(Map<String, String> params, String filter) {
+        this.params = params;
+        this.filter = filter;
+    }
+
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         if (!params.containsKey("query")) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
         String whereQuery = params.get("query");
+
         Map<String, Object> filterMap = parseJson(whereQuery);
+        Map<String,Object> fixedFilter = parseJson(filter);
 
-        if (filterMap.isEmpty()) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+        Map<String,Object> filter = new HashMap<>(filterMap);
+        filter.putAll(fixedFilter);
 
+        if (filter.isEmpty()) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+
+        Predicate[] predicates = generatePredicate(root, criteriaBuilder, filter);
+
+        if (predicates.length == 0){
+            return criteriaBuilder.isTrue(criteriaBuilder.literal(false));
+        }else{
+            return criteriaBuilder.and(predicates);
+        }
+    }
+
+    private Predicate[] generatePredicate(Root<T> root, CriteriaBuilder criteriaBuilder, Map<String, Object> filterMap) {
         var attrs = root.getModel().getDeclaredAttributes();
 
         Predicate[] predicates = filterMap.keySet().stream()
@@ -65,11 +86,7 @@ public class QuerySpecification <T> implements Specification<T>  {
                 .map(key -> processCriteria(root, criteriaBuilder, key, filterMap.get(key)))
                 .toArray(value -> new Predicate[value]);
 
-        if (predicates.length <= 0){
-            return criteriaBuilder.isTrue(criteriaBuilder.literal(false));
-        }else{
-            return criteriaBuilder.and(predicates);
-        }
+        return predicates;
     }
 
     private Predicate processCriteria(Root<T> root, CriteriaBuilder criteria, String originalKey, Object data) {
