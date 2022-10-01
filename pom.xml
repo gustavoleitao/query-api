@@ -11,19 +11,96 @@
         <relativePath/>
     </parent>
 
-    <groupId>br.ufrn.lii</groupId>
-    <artifactId>queryapi</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>queryapi</name>
-    <packaging>jar</packaging>
+    <description>
+        This project implements queries filter in generic way to REST APIs developed with Spring Data.
+    </description>
+    <url>https://github.com/gustavoleitao/query-api</url>
 
-    <description>queryapi</description>
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://github.com/gustavoleitao/query-api/blob/main/LICENSE.md</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Gustavo Leitão</name>
+            <organization>IMD/UFRN</organization>
+            <organizationUrl>http://imd.ufrn.br</organizationUrl>
+        </developer>
+    </developers>
+
+    <groupId>br.ufrn.lii</groupId>
+    <artifactId>query-api</artifactId>
+    <version>0.0.1</version>
+    <name>query-api</name>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
 
@@ -94,5 +171,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:gustavoleitao/query-api.git</connection>
+        <developerConnection>scm:git:ssh://github.com:gustavoleitao/query-api.git</developerConnection>
+        <url>https://github.com/gustavoleitao/query-api/tree/main</url>
+    </scm>
 
 </project>
