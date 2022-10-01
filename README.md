@@ -126,7 +126,7 @@ public class GrettingController {
     @GetMapping("/greeting")
     public Page<Greeting> greeting(@RequestParam Map<String, String> parameters, Pageable pageable) {
         String fixedFilter = "{\"content\": \"Some Text\"}";
-        return repository.findAll(new QuerySpecification(paramters,fixedFilter), pageable);
+        return repository.findAll(new QuerySpecification(paramters, fixedFilter), pageable);
     }
 }
 ```

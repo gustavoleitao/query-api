@@ -1,7 +1,7 @@
-package br.ufrn.lii.queryapi.test;
+package io.github.gustavoleitao.queryapi.test;
 
-import br.ufrn.lii.queryapi.DateUtil;
-import br.ufrn.lii.queryapi.QuerySpecification;
+import io.github.gustavoleitao.queryapi.DateUtil;
+import io.github.gustavoleitao.queryapi.QuerySpecification;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

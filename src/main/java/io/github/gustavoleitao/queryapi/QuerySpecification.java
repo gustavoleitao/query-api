@@ -1,4 +1,4 @@
-package br.ufrn.lii.queryapi;
+package io.github.gustavoleitao.queryapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

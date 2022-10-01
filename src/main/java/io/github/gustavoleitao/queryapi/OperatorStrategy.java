@@ -1,4 +1,4 @@
-package br.ufrn.lii.queryapi;
+package io.github.gustavoleitao.queryapi;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

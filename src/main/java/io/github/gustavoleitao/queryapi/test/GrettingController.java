@@ -1,6 +1,6 @@
-package br.ufrn.lii.queryapi.test;
+package io.github.gustavoleitao.queryapi.test;
 
-import br.ufrn.lii.queryapi.QuerySpecification;
+import io.github.gustavoleitao.queryapi.QuerySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

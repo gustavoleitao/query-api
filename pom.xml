@@ -31,7 +31,7 @@
         </developer>
     </developers>
 
-    <groupId>br.ufrn.lii</groupId>
+    <groupId>io.github.gustavoleitao</groupId>
     <artifactId>query-api</artifactId>
     <version>0.0.1</version>
     <name>query-api</name>

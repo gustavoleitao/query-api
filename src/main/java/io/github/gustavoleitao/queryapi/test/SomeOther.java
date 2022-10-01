@@ -1,4 +1,4 @@
-package br.ufrn.lii.queryapi.test;
+package io.github.gustavoleitao.queryapi.test;
 
 
 
