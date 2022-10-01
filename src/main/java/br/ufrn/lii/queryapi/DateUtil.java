@@ -4,7 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Classe utilitária de operações em datas.
+ */
 public class DateUtil {
+
+    private DateUtil(){
+
+    }
 
     private static List<String> validPatterns = Collections.synchronizedList(
             Arrays.asList("yyyy-MM-dd'T'HH:mm:ss'Z'",
