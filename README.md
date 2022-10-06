@@ -6,6 +6,16 @@ This project implements queries filter in generic way to REST APIs developed wit
 
 This project is currently in developing mode. We don`t release stable version yet. Watch this project to follow its development.
 
+To install use this entry in Maven project:
+
+```
+<dependency>
+    <groupId>io.github.gustavoleitao</groupId>
+    <artifactId>query-api</artifactId>
+    <version>0.0.2-beta</version>
+</dependency>
+```
+
 ## How to use
 
 First step you need to add @RequestParam Map<String, String> at Controller method to collect all request parameters. After that, you need to create instance of QuerySpecification and pass this parameter to repository query, like this:
@@ -129,4 +139,12 @@ public class GrettingController {
         return repository.findAll(new QuerySpecification(paramters, fixedFilter), pageable);
     }
 }
+```
+
+### Genareting new version
+
+Use the following command to generate a new version
+
+```
+./mvnw clean deploy -P release 
 ```
