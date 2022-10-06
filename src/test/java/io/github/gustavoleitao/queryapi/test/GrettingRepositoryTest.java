@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -28,37 +29,36 @@ public class GrettingRepositoryTest {
     public GrettingRepositoryTest() {
     }
 
-//    public GrettingControllerTest(GreetingRepository repository) {
-//        this.repository = repository;
-//    }
-
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads() {
         assertThat(repository).isNotNull();
     }
 
-    public List<Greeting> mockData() throws ParseException {
+    public List<Greeting> mockData() {
 
         var data1 = Greeting
-                .builder().content("Simple text").iValue(9).dValue(0.33).state(Greeting.State.ON)
+                .greetingBuilder().content("Simple text").iValue(9).dValue(0.33).state(Greeting.State.ON)
+                .noIdea("noIdea")
                 .bValue(false).bNonPrimitiveValue(false).dateValue(DateUtil.parseDate("2022-07-11T00:00:00Z")).build();
 
         var data2 = Greeting
-                .builder().content("Text simple").iValue(10).dValue(0.66).state(Greeting.State.OFF)
+                .greetingBuilder().content("Text simple").iValue(10).dValue(0.66).state(Greeting.State.OFF)
                 .bValue(true).bNonPrimitiveValue(true).dateValue(DateUtil.parseDate("2022-07-12T00:00:00Z"))
+                .noIdea("noIdea")
                 .other(SomeOther.builder().text("random").build())
                 .build();
 
         var data3 = Greeting
-                .builder().content("Some different").iValue(11).dValue(0.99).state(Greeting.State.ON)
+                .greetingBuilder().content("Some different").iValue(11).dValue(0.99).state(Greeting.State.ON)
                 .bValue(false).bNonPrimitiveValue(false).dateValue(DateUtil.parseDate("2022-07-13T00:00:00Z"))
+                .noIdea("lii")
                 .build();
 
         return Arrays.asList(data1, data2, data3);
     }
 
     @Test
-    public void noFilter() throws ParseException {
+    public void noFilter() {
         List<Greeting> result = repository.findAll(new QuerySpecification<>(ParamterBuild.instance().build()));
         Assert.assertEquals(mockData().size(), result.size());
     }
@@ -205,6 +205,17 @@ public class GrettingRepositoryTest {
         Assert.assertEquals(1, result.size());
         Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
                 .getOther().getText().equals("random"));
+    }
+
+    @Test
+    public void filterInBaseClass(){
+        var paramters = ParamterBuild.instance()
+                .eq("noIdea", "lii")
+                .build();
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
+                .getNoIdea().equals("lii"));
     }
 
     @BeforeAll

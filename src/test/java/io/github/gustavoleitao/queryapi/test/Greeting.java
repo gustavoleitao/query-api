@@ -1,7 +1,6 @@
 package io.github.gustavoleitao.queryapi.test;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,12 +8,25 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Builder
 @Data
-@AllArgsConstructor
-public class Greeting {
+public class Greeting extends BaseClass {
 
     public Greeting() {
+        super("noIdea");
+    }
+
+    @Builder (builderMethodName = "greetingBuilder")
+    public Greeting(String noIdea, Long id, String content, int iValue, double dValue, State state, boolean bValue, Boolean bNonPrimitiveValue, SomeOther other, Date dateValue) {
+        super(noIdea);
+        this.id = id;
+        this.content = content;
+        this.iValue = iValue;
+        this.dValue = dValue;
+        this.state = state;
+        this.bValue = bValue;
+        this.bNonPrimitiveValue = bNonPrimitiveValue;
+        this.other = other;
+        this.dateValue = dateValue;
     }
 
     public enum State {
@@ -43,5 +55,6 @@ public class Greeting {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateValue;
+
 
 }
