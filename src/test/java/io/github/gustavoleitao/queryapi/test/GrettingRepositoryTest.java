@@ -8,20 +8,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class GrettingRepositoryTest {
+class GrettingRepositoryTest {
 
     @Autowired
     private GreetingRepository repository;
@@ -64,7 +64,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void likeFilter(){
+    public void likeFilter() {
         var paramters = ParamterBuild.instance()
                 .like("content", "Simple%")
                 .build();
@@ -73,7 +73,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void eqStringFilter(){
+    public void eqStringFilter() {
         var paramters = ParamterBuild.instance()
                 .eq("content", "Simple text")
                 .build();
@@ -83,7 +83,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void eqIntFilter(){
+    public void eqIntFilter() {
         var paramters = ParamterBuild.instance()
                 .eq("iValue", "10")
                 .build();
@@ -93,7 +93,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void gtIntFilter(){
+    public void gtIntFilter() {
         var paramters = ParamterBuild.instance()
                 .gt("iValue", "10")
                 .build();
@@ -103,7 +103,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void ltIntFilter(){
+    public void ltIntFilter() {
         var paramters = ParamterBuild.instance()
                 .lt("iValue", "10")
                 .build();
@@ -113,7 +113,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void geIntFilter(){
+    public void geIntFilter() {
         var paramters = ParamterBuild.instance()
                 .ge("iValue", "11")
                 .build();
@@ -123,7 +123,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void leIntFilter(){
+    public void leIntFilter() {
         var paramters = ParamterBuild.instance()
                 .le("iValue", "9")
                 .build();
@@ -133,7 +133,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void gtDoubleFilter(){
+    public void gtDoubleFilter() {
         var paramters = ParamterBuild.instance()
                 .gt("dValue", "0.66")
                 .build();
@@ -143,7 +143,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void eqEnumFilter(){
+    public void eqEnumFilter() {
         var paramters = ParamterBuild.instance()
                 .eq("state", "OFF")
                 .build();
@@ -154,7 +154,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void eqBooleanFilter(){
+    public void eqBooleanFilter() {
         var paramters = ParamterBuild.instance()
                 .eq("bValue", "true")
                 .build();
@@ -165,7 +165,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void eqNonPrimitiveBooleanFilter(){
+    public void eqNonPrimitiveBooleanFilter() {
         var paramters = ParamterBuild.instance()
                 .eq("bNonPrimitiveValue", "true")
                 .build();
@@ -186,7 +186,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void eqOne2OneFilter(){
+    public void eqOne2OneFilter() {
         var paramters = ParamterBuild.instance()
                 .eq("other.text", "random")
                 .build();
@@ -197,7 +197,7 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void likeOne2OneFilter(){
+    public void likeOne2OneFilter() {
         var paramters = ParamterBuild.instance()
                 .like("other.text", "rand%")
                 .build();
@@ -208,14 +208,25 @@ public class GrettingRepositoryTest {
     }
 
     @Test
-    public void filterInBaseClass(){
+    public void filterInBaseClass() {
         var paramters = ParamterBuild.instance()
-                .eq("noIdea", "lii")
+                .eq("state", "ON")
                 .build();
-        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters));
-        Assert.assertEquals(1, result.size());
-        Assert.assertTrue(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
-                .getNoIdea().equals("lii"));
+        String fixedFilter = "{\"uuidParam\": \"" + "00000000-0000-0000-0000-000000000002" + "\"}";
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters, fixedFilter));
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(result.stream().findAny().orElseThrow(() -> new RuntimeException("Registro não encontrado"))
+                .getUuidParam(), UUID.fromString("00000000-0000-0000-0000-000000000002"));
+    }
+
+    @Test
+    public void filterInBaseClassUuidParamNotFound() {
+        var paramters = ParamterBuild.instance()
+                .eq("state", "ON")
+                .build();
+        String fixedFilter = "{\"uuidParam\": \"" + "00000000-0000-0000-0000-000000000003" + "\"}";
+        List<Greeting> result = repository.findAll(new QuerySpecification<>(paramters, fixedFilter));
+        Assert.assertEquals(0, result.size());
     }
 
     @BeforeAll

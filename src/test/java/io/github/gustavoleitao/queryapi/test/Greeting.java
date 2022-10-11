@@ -6,18 +6,19 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
 public class Greeting extends BaseClass {
 
     public Greeting() {
-        super("noIdea");
+        super(UUID.fromString("00000000-0000-0000-0000-000000000002"),"noIdea");
     }
 
     @Builder (builderMethodName = "greetingBuilder")
     public Greeting(String noIdea, Long id, String content, int iValue, double dValue, State state, boolean bValue, Boolean bNonPrimitiveValue, SomeOther other, Date dateValue) {
-        super(noIdea);
+        super(UUID.fromString("00000000-0000-0000-0000-000000000002"),"noIdea");
         this.id = id;
         this.content = content;
         this.iValue = iValue;
