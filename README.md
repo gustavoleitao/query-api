@@ -12,7 +12,7 @@ To install use this entry in Maven project:
 <dependency>
     <groupId>io.github.gustavoleitao</groupId>
     <artifactId>query-api</artifactId>
-    <version>0.0.2-beta</version>
+    <version>0.0.3-beta</version>
 </dependency>
 ```
 
