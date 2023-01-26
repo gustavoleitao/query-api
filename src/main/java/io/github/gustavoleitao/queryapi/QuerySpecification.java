@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.Attribute;
+import jakarta.persistence.criteria.*;
+import jakarta.persistence.metamodel.Attribute;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
